@@ -30,7 +30,7 @@ namespace LeakyAbstraction.ScriptableObjectPersistor
         protected ScriptableObject[] _persistenceList = default;
 
         protected string _persistentContainerKey => "PersistentContainer" + GetInstanceID();
-        protected Dictionary<int, DataEntity> _dataEntities = new Dictionary<int, DataEntity>();
+        protected Dictionary<string, DataEntity> _dataEntities = new Dictionary<string, DataEntity>();
 
         protected void Awake()
         {
@@ -74,7 +74,7 @@ namespace LeakyAbstraction.ScriptableObjectPersistor
                 if (populable == null)
                     continue;
 
-                if (_dataEntities.TryGetValue(populable.GetInstanceID(), out var dataEntity))
+                if (_dataEntities.TryGetValue(GetID(populable), out var dataEntity))
                     JsonUtility.FromJsonOverwrite(dataEntity.JsonData, populable);
             }
         }
@@ -97,7 +97,7 @@ namespace LeakyAbstraction.ScriptableObjectPersistor
                 if (persistable == null)
                     continue;
 
-                var id = persistable.GetInstanceID();
+                var id = GetID(persistable);
                 _dataEntities[id] = new DataEntity()
                 {
                     EntityId = id,
@@ -114,6 +114,12 @@ namespace LeakyAbstraction.ScriptableObjectPersistor
             // Push the container into the persistence mechanism for storage, under the given key.
             _persistenceMechanism.Save(_persistentContainerKey, container);
         }
+
+        /// <summary>
+        /// Derives an ID from the ScriptableObject.
+        /// </summary>
+        protected string GetID(ScriptableObject so)
+            => so.GetType() + ":" + so.name;
 
         /// <summary>
         /// Deletes all saved state.
@@ -134,7 +140,7 @@ namespace LeakyAbstraction.ScriptableObjectPersistor
         [Serializable]
         protected struct DataEntity
         {
-            public int EntityId;
+            public string EntityId;
             public string JsonData;
         }
     }
