@@ -33,7 +33,7 @@ The *persistence mechanism* mentioned above is essentially a `ScriptableObject`-
 
 2. **Create a persistence mechanism:** Create a `PersistenceMechanism` by right clicking in the project tree, selecting **Create** > **Persistence Mechanisms**, then one of the available mechanisms:
 
-   ![Available persistence mechanisms](D:\_Unity3DProjects\Submodules\Assets\Submodules\Unity3D-ScriptableObjectPersistor\.github\PersistenceMechanismsMenu.png)
+   ![Available persistence mechanisms](PersistenceMechanismsMenu.png)
 
 3. **Set a filename (optional):** If you created a file-based persistence mechanism, you can specify the **filename** to use on the Inspector pane of the persistence mechanism itself.
 
