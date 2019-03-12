@@ -53,7 +53,7 @@ So I resorted to something rather primitive: Simply using the type name + instan
 
 ### Internal identification of ScriptableObjects
 
-The most important thing to mention is that **instance identification is based on Unity's internal InstanceID** (the ID you can see in the `meta` files, and in the debug mode of the inspector). If you use your classes irresponsibly, and this instance ID changes, the persistence system won't be able correlate the saved state with the given instance, and the data will stop being restored.
+The most important thing to mention is that **instance identification is based on Unity's internal InstanceID**. If you use your classes irresponsibly, and this instance ID changes, the persistence system won't be able correlate the saved state with the given instance, and the data will stop being restored.
 
 But this is the exact same 'gracefulness' Unity itself handles object states with. :D So I suppose you're already familiar with this.
 
@@ -65,7 +65,7 @@ I don't know what would be the best way to granularly handle this orphaned data;
 
 ### Internal identification of the container itself
 
-When you use the `PlayerPrefsPersistenceMechanism`, the container data is saved under a key that is currently automatically derived from the `InstanceID` of the `PersistentContainer` component. This means if your component's `InstanceID` changes, it won't find the saved data. *(In this case the `InstanceID` is the Id you can see in `.asset` files , or what is saved in the `.scene` file internally, if I'm not mistaken.)*
+When you use the `PlayerPrefsPersistenceMechanism`, the container data is saved under a key that is currently automatically derived from the `InstanceID` of the `PersistentContainer` component. This means if your component's `InstanceID` changes, it won't find the saved data.
 
 When you use file-based persistence mechanism, you can specify the filename in the persistence mechanism's Inspector pane. In case of the JSON and binary file format, no key is used. In case of the AES-128 encrypted file format, the system derives an encryption key from the `InstanceId` of the `PersistenceContainer` component.
 
