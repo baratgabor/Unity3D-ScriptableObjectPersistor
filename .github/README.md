@@ -2,7 +2,7 @@
 
 ## *Save into PlayerPrefs, JSON file, binary file or AES-encrypted file*
 
-This is a submodule I developed for my own projects. It's a relatively new addition; still under development. But if you find it useful, feel free to use it for any purpose.
+This is a submodule I developed for my own projects. It's a relatively new addition; still under development. But if you find it useful, feel free to use it for any purpose. **But actually, hold your horses, because the instance identification mechanism is currently a [broken crap](#Current problem).**
 
 'Transparent' means you don't have to call any of save or load methods:
 
@@ -15,6 +15,12 @@ This is a submodule I developed for my own projects. It's a relatively new addit
 
 The *persistence mechanism* mentioned above is essentially a `ScriptableObject`-based plug-and-play component you can drag into the appropriate slot on the `PersistentContainer`. This component determines how and where the state of your `ScriptableObjects` will be saved.
 
+## Interface
+
+![PersistentContainer MonoBehaviour component settings in Inspector](PersistentContainer.png)
+
+*Simple example use with granular, single-variable `ScriptableObjects`. See [Unity3D-ReactiveScriptables](https://github.com/baratgabor/Unity3D-ReactiveScriptables) for more information on this approach. You can use it with traditional, large state `ScriptableObjects` too.* 
+
 ## Usage 101
 
 1. #### Add the `PersistentContainer` component to a gameobject.
@@ -24,15 +30,26 @@ The *persistence mechanism* mentioned above is essentially a `ScriptableObject`-
 ## Usage detailed
 
 1. **Create a container:** Add the `PersistentContainer` component to a `GameObject` in your scene (for example to the object responsible for scene management, or an object marked with `DontDestroyOnLoad`).
-2. **Create a persistence mechanism:** Create a `PersistenceMechanism` by right clicking in the project tree, and selecting an item from the **Create** > **Persistence Mechanisms** menu. The following persistence mechanisms are available:
-   - PlayerPrefs
-   - JSON file
-   - Binary file
-   - Encrypted binary file
+
+2. **Create a persistence mechanism:** Create a `PersistenceMechanism` by right clicking in the project tree, selecting **Create** > **Persistence Mechanisms**, then one of the available mechanisms:
+
+   ![Available persistence mechanisms](D:\_Unity3DProjects\Submodules\Assets\Submodules\Unity3D-ScriptableObjectPersistor\.github\PersistenceMechanismsMenu.png)
+
 3. **Set a filename (optional):** If you created a file-based persistence mechanism, you can specify the **filename** to use on the Inspector pane of the persistence mechanism itself.
+
 4. **Fill the container:** Drag the `ScriptableObjects` you want to save into the **Persistence List** array of the `PersistentContainer` component.
 
-## Implementation details
+## Current problem
+
+**The unique and persistent identification of instances is currently broken.**
+
+Initially, like a proper moron, I used `GetInstanceId()` on the `ScriptableObject` instances to get hold of a unique identifier. I assumed this is the equivalent of the persistent GUIDs Unity uses for assets – but nope, the `InstanceId` is in fact not guaranteed to be persistent.
+
+After spending some time searching for solution to actually get the GUIDs, I concluded that there are none. 
+
+So I resorted to something rather primitive: Simply using the type name + instance name of the instances (the latter is the name you see in the editor). This is totally unacceptable, especially since it means renaming an instance breaks the persistence. **I'm still looking for solutions to keep the container compatible with any objects, without having to add any sort of ID field to them.**
+
+## Implementation details (obsolete)
 
 ### Internal identification of ScriptableObjects
 
