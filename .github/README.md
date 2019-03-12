@@ -8,7 +8,7 @@ This is a submodule I developed for my own projects. It's a relatively new addit
 
 - **Automatic state save:** The states of the selected  `ScriptableObjects` are automatically serialized and stored through the selected persistence mechanism.
   - **When?** When `OnDestroy()` triggers on the container.
-- **Automating state restore:** The state is automatically restored when the persistent container is instantiated (when ).
+- **Automating state restore:** The state is automatically restored when the persistent container is instantiated.
   - **When?** When `Awake()` triggers on the container.
 
 (But optionally you can disable this automatic save and restore, and call the publicly exposed simple `SaveData()` and `LoadData()` methods on the `PersistentContainer` instance.)
