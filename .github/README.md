@@ -1,31 +1,40 @@
 # Persistent ScriptabeObject container for Unity3D
 
-## *Can save into PlayerPrefs, JSON file, binary file or AES-encrypted file*
+## *Save into PlayerPrefs, JSON file, binary file or AES-encrypted file*
 
-**Warning:** *I developed these components mainly for my own use. Make sure to thoroughly test them before using them for anything serious. And test the data you want to save, as not everything is serializable.*
+This is a submodule I developed for my own projects. It's a relatively new addition; still under development. But if you find it useful, feel free to use it for any purpose.
 
-This repo might be useful for you if you don't have your own tooling for Unity3D yet, and you want to **quickly implement persistence for your `ScriptableObject` instances**.
+'Transparent' means you don't have to call any of save or load methods:
 
-The 'transparent' here means that you **don't have to call any sort of save or load methods**. The state of your `ScriptableObjects` at the time of destroying the persistent container is automatically saved through the selected persistence mechanism. Furthermore, the state is automatically restored when the persistent container awakes.
+- **Automatic state save:** The states of the selected  `ScriptableObjects` are automatically serialized and stored through the selected persistence mechanism.
+  - **When?** When `OnDestroy()` triggers on the container.
+- **Automating state restore:** The state is automatically restored when the persistent container is instantiated (when ).
+  - **When?** When `Awake()` triggers on the container.
 
-But optionally you can disable this automatic saving and loading, and call the simple, publicly exposed `SaveData()` and `LoadData()` methods on the `PersistentContainer` instance.
+(But optionally you can disable this automatic save and restore, and call the publicly exposed simple `SaveData()` and `LoadData()` methods on the `PersistentContainer` instance.)
 
-The `persistence mechanism` is essentially a `ScriptableObject`-based plug-and-play component you can drag into the appropriate slot on the `PersistentContainer`. This component determines how and where the state of your `ScriptableObjects` will be saved.
+The *persistence mechanism* mentioned above is essentially a `ScriptableObject`-based plug-and-play component you can drag into the appropriate slot on the `PersistentContainer`. This component determines how and where the state of your `ScriptableObjects` will be saved.
 
-### Usage
+## Usage 101
 
-1. Add the `PersistentContainer` component to a `GameObject` in your scene (for example to the object responsible for scene management, or an object marked with `DontDestroyOnLoad`).
-2. Create a `PersistenceMechanism` by right clicking in the project tree, and selecting an item from the **Create** > **Persistence Mechanisms** menu. The following persistence mechanisms are available:
+1. #### Add the `PersistentContainer` component to a gameobject.
+
+2. #### Drop some `ScriptableObjects` into the container.
+
+## Usage detailed
+
+1. **Create a container:** Add the `PersistentContainer` component to a `GameObject` in your scene (for example to the object responsible for scene management, or an object marked with `DontDestroyOnLoad`).
+2. **Create a persistence mechanism:** Create a `PersistenceMechanism` by right clicking in the project tree, and selecting an item from the **Create** > **Persistence Mechanisms** menu. The following persistence mechanisms are available:
    - PlayerPrefs
    - JSON file
    - Binary file
    - Encrypted binary file
-3. (optional) If you created a file-based persistence mechanism, you can specify the filename you'd like to use on the Inspector pane of the persistence mechanism itself.
-4. Drag the `ScriptableObjects` you want to save into the **Persistence List** array of the `PersistentContainer` component.
+3. **Set a filename (optional):** If you created a file-based persistence mechanism, you can specify the **filename** to use on the Inspector pane of the persistence mechanism itself.
+4. **Fill the container:** Drag the `ScriptableObjects` you want to save into the **Persistence List** array of the `PersistentContainer` component.
 
-### Implementation details
+## Implementation details
 
-#### Internal identification of ScriptableObjects
+### Internal identification of ScriptableObjects
 
 The most important thing to mention is that **instance identification is based on Unity's internal InstanceID** (the ID you can see in the `meta` files, and in the debug mode of the inspector). If you use your classes irresponsibly, and this instance ID changes, the persistence system won't be able correlate the saved state with the given instance, and the data will stop being restored.
 
@@ -37,7 +46,7 @@ The same mechanism will apply if you remove `ScriptableObjects` from the `Persis
 
 I don't know what would be the best way to granularly handle this orphaned data; what I know that I'll soon implement at least a `Purge()` method to clear the storage.
 
-#### Internal identification of the container itself
+### Internal identification of the container itself
 
 When you use the `PlayerPrefsPersistenceMechanism`, the container data is saved under a key that is currently automatically derived from the `InstanceID` of the `PersistentContainer` component. This means if your component's `InstanceID` changes, it won't find the saved data. *(In this case the `InstanceID` is the Id you can see in `.asset` files , or what is saved in the `.scene` file internally, if I'm not mistaken.)*
 

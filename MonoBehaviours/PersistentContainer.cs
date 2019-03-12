@@ -10,12 +10,12 @@ namespace LeakyAbstraction.ScriptableObjectPersistor
     /// </summary>
     public class PersistentContainer : MonoBehaviour
     {
-        [Header("Method of persistence:")]
+        [Header("Storage mode:")]
         [SerializeField]
         [Tooltip("Drag here a persistence mechanism instance that defines how the data will be saved.")]
         protected PersistenceMechanism _persistenceMechanism = default;
 
-        [Header("Automatic save/load settings:")]
+        [Header("Automatic save/load:")]
         [SerializeField]
         [Tooltip("If enabled, data will be automatically loaded when a scene is loaded.")]
         protected bool _autoLoadOnAwake = true;
@@ -24,7 +24,7 @@ namespace LeakyAbstraction.ScriptableObjectPersistor
         [Tooltip("If enabled, data will be automatically saved when a scene is unloaded.")]
         protected bool _autoSaveOnDestroy = true;
 
-        [Header("ScriptableObject instances to persist:")]
+        [Header("ScriptableObjects to store:")]
         [SerializeField]
         [Tooltip("Populate this array with the ScriptableObject instances you want to save and load automatically.")]
         protected ScriptableObject[] _persistenceList = default;
@@ -119,7 +119,7 @@ namespace LeakyAbstraction.ScriptableObjectPersistor
         /// Derives an ID from the ScriptableObject.
         /// </summary>
         protected string GetID(ScriptableObject so)
-            => so.GetType() + ":" + so.name;
+            => so.GetType().Name + ":" + so.name; // Base class + Unity instance name for ID - introduces the constraint of uniquely named instances
 
         /// <summary>
         /// Deletes all saved state.
