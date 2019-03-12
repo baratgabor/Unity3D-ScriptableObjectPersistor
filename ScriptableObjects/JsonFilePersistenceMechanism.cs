@@ -9,7 +9,7 @@ namespace LeakyAbstraction.ScriptableObjectPersistor
     /// <summary>
     /// Stores object state in a file, in cleartext Json format.
     /// </summary>
-    [CreateAssetMenu(menuName = "Persistence Mechanisms/Json File")]
+    [CreateAssetMenu(menuName = "Persistence Mechanisms/JSON file")]
     public class JsonFilePersistenceMechanism : PersistenceMechanism
     {
         [SerializeField]

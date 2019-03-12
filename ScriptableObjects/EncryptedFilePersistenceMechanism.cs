@@ -8,7 +8,7 @@ namespace LeakyAbstraction.ScriptableObjectPersistor
     /// <summary>
     /// Stores object state in a file, in AES-128 encrypted binary format.
     /// </summary>
-    [CreateAssetMenu(menuName = "Persistence Mechanisms/Encrypted binary File")]
+    [CreateAssetMenu(menuName = "Persistence Mechanisms/Encrypted binary file")]
     public class EncryptedFilePersistenceMechanism : PersistenceMechanism
     {
         [SerializeField]

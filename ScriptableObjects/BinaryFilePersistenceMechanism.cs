@@ -7,7 +7,7 @@ namespace LeakyAbstraction.ScriptableObjectPersistor
     /// <summary>
     /// Stores object state in a file, in binary format.
     /// </summary>
-    [CreateAssetMenu(menuName = "Persistence Mechanisms/Binary File")]
+    [CreateAssetMenu(menuName = "Persistence Mechanisms/Binary file")]
     public class BinaryFilePersistenceMechanism : PersistenceMechanism
     {
         [SerializeField]
