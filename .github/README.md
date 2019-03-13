@@ -2,7 +2,7 @@
 
 ## *Save into PlayerPrefs, JSON file, binary file or AES-encrypted file*
 
-This is a submodule I developed for my own projects. It's a relatively new addition; still under development. But if you find it useful, feel free to use it for any purpose. **But actually, hold your horses, because the instance identification mechanism is currently a [broken crap](#current-problem).**
+This is a submodule I developed for my own projects. It's a relatively new addition; still under development. But if you find it useful, feel free to use it for any purpose. **But actually, hold your horses, because the instance identification mechanism is currently a [broken crap](#current-problem). If I don't find a solution, I might just as well scrap the whole concept of a flexible container.**
 
 'Transparent' means you don't have to call any of save or load methods:
 
