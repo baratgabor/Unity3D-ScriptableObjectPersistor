@@ -43,7 +43,7 @@ The *persistence mechanism* mentioned above is essentially a `ScriptableObject`-
 
 Initially, like a proper moron, I used `GetInstanceId()` on the `ScriptableObject` instances to get hold of a unique identifier. I assumed this is the equivalent of the persistent GUIDs Unity uses for assets – but nope, the `InstanceId` is in fact not guaranteed to be persistent.
 
-I spent some time researching solutions to actually get the GUIDs, but to my surprise there appears to be none. So I temporarily refactored the container to use the type and instance name of the `ScriptableObjects`, which is just horrid, since even renaming them breaks the persistence.
+I spent some time researching solutions to actually get the GUIDs (at runtime), but to my surprise there appears to be none. So I temporarily refactored the container to use the type and instance name of the `ScriptableObjects`, which is just horrid, since even renaming them breaks the persistence.
 
 I really want to keep the container universal, i.e. not requiring any sort of special ID field to be implemented on the contained objects.
 
