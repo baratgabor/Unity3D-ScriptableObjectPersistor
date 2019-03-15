@@ -1,4 +1,4 @@
-# Persistent ScriptabeObject container for Unity3D
+# Automatic ScriptabeObject state saving and restoring container for Unity3D
 
 **Supports saving into PlayerPrefs, JSON file, binary file or AES-encrypted file.**
 
