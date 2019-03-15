@@ -1,8 +1,12 @@
 # Persistent ScriptabeObject container for Unity3D
 
-## *Save into PlayerPrefs, JSON file, binary file or AES-encrypted file*
+**Supports saving into PlayerPrefs, JSON file, binary file or AES-encrypted file.**
 
-This is a submodule I developed for my own projects. It's a relatively new addition; still under development. But if you find it useful, feel free to use it for any purpose. **But actually, hold your horses, because the instance identification mechanism is currently a [broken crap](#current-problem). If I don't find a solution, I might just as well scrap the whole concept of a flexible container.**
+----
+### Status: Not stable. Actually currently quite broken due to the difficulty of getting hold of [persistent asset IDs in Unity](#current-problem). I'm short on time these days, but will try to work out a decent solution.
+----
+
+This is a submodule I developed for my own projects. New addition, still under development. But if you find it useful, feel free to use it for any purpose.
 
 'Transparent' means you don't have to call any of save or load methods:
 
@@ -45,35 +49,24 @@ The *persistence mechanism* mentioned above is essentially a `ScriptableObject`-
 
 Initially, like a proper moron, I used `GetInstanceId()` on the `ScriptableObject` instances to get hold of a unique identifier. I assumed this is the equivalent of the persistent GUIDs Unity uses for assets – but nope, the `InstanceId` is in fact not guaranteed to be persistent.
 
-After spending some time searching for solution to actually get the GUIDs, I concluded that there are none. 
+I spent some time researching solutions to actually get the GUIDs, but to my surprise there appears to be none. So I temporarily refactored the container to use the type and instance name of the `ScriptableObjects`, which is just horrid, since even renaming them breaks the persistence.
 
-So I resorted to something rather primitive: Simply using the type name + instance name of the instances (the latter is the name you see in the editor). This is totally unacceptable, especially since it means renaming an instance breaks the persistence. **I'm still looking for solutions to keep the container compatible with any objects, without having to add any sort of ID field to them.**
+I really want to keep the container universal, i.e. not requiring any sort of special ID field to be implemented on the contained objects.
 
 ## Implementation details (obsolete)
 
-### Internal identification of ScriptableObjects
+### Fail-safe against data loss
 
-The most important thing to mention is that **instance identification is based on Unity's internal InstanceID**. If you use your classes irresponsibly, and this instance ID changes, the persistence system won't be able correlate the saved state with the given instance, and the data will stop being restored.
+I made some efforts to add a fail-safe against potential data loss: The persistence system *does not delete orphaned saved data*; it continues to store it.
 
-But this is the exact same 'gracefulness' Unity itself handles object states with. :D So I suppose you're already familiar with this.
+What this means is that if you remove an item from the container, or an item gets detached from the saved state for any reason (e.g. identification breaks), the container will continue to store the previously saved data of the item. If you put the item back (with identification intact), the container will resume loading the state for it.
 
-I actually made some efforts to add a **fail-safe against potential data loss**: The persistence system *does not delete orphaned saved data*; it continues to store it.
+I don't know what would be the best way to granularly handle these orphaned data; what I know is that I'll implement at least a `Purge()` method to clear the storage.
 
-The same mechanism will apply if you remove `ScriptableObjects` from the `PersistentContainer` list: the removed instances' state won't be deleted, so if you later put these instances back to the container, their state can restore again (provided that the instance ID is still the same).
+### Other notes
 
-I don't know what would be the best way to granularly handle this orphaned data; what I know that I'll soon implement at least a `Purge()` method to clear the storage.
+You can also transform stored state from one format to another if you replace the persistence mechanism while the data is already loaded, and you execute a save. 
 
-### Internal identification of the container itself
+The system is not exactly optimized for handling large amounts of data, since it keeps stuff in memory, but I'll push it into that direction to cover these usage scenarios too.
 
-When you use the `PlayerPrefsPersistenceMechanism`, the container data is saved under a key that is currently automatically derived from the `InstanceID` of the `PersistentContainer` component. This means if your component's `InstanceID` changes, it won't find the saved data.
-
-When you use file-based persistence mechanism, you can specify the filename in the persistence mechanism's Inspector pane. In case of the JSON and binary file format, no key is used. In case of the AES-128 encrypted file format, the system derives an encryption key from the `InstanceId` of the `PersistenceContainer` component.
-
-
-
-
-
-
-
-
-
+Oh yes, the AES-128 encryption is sort of a lazy implementation. The key is generated from a string key that the container itself provides for the persistence mechanism; it's always the same key (per container). And the IV is prepended in cleartext to the written encrypted data (but that's actually fine).
