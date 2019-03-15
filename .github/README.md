@@ -53,7 +53,7 @@ I spent some time researching solutions to actually get the GUIDs, but to my sur
 
 I really want to keep the container universal, i.e. not requiring any sort of special ID field to be implemented on the contained objects.
 
-## Implementation details (obsolete)
+## Implementation details
 
 ### Fail-safe against data loss
 
