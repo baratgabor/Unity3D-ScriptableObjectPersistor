@@ -6,7 +6,7 @@
 ### Status: Functionally borked, due to the difficulty of getting hold of [persistent asset IDs in Unity](#current-problem). I'm short on time these days, but will try to work out a decent solution. Besides that the persistence mechanism modules should be stable.
 ----
 
-This is a submodule I developed for my own projects. New addition, still under development. But if you find it useful, feel free to use it for any purpose.
+This is a tiny submodule I developed for my own projects. New addition, still under development. But if you find it useful, feel free to use it for any purpose.
 
 'Transparent' means you don't have to call any of save or load methods:
 
