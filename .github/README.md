@@ -25,13 +25,7 @@ The *persistence mechanism* mentioned above is essentially a `ScriptableObject`-
 
 *Simple example use with granular, single-variable `ScriptableObjects`. See [Unity3D-ReactiveScriptables](https://github.com/baratgabor/Unity3D-ReactiveScriptables) for more information on this approach. You can use it with traditional, large state `ScriptableObjects` too.* 
 
-## Usage 101
-
-1. #### Add the `PersistentContainer` component to a gameobject.
-
-2. #### Drop some `ScriptableObjects` into the container.
-
-## Usage detailed
+## Usage
 
 1. **Create a container:** Add the `PersistentContainer` component to a `GameObject` in your scene (for example to the object responsible for scene management, or an object marked with `DontDestroyOnLoad`).
 
