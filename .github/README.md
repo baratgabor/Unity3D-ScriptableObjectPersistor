@@ -8,7 +8,7 @@
 
 This is a tiny submodule I developed for my own projects. New addition, still under development. But if you find it useful, feel free to use it for any purpose.
 
-'Transparent' means you don't have to call any of save or load methods:
+This container persists and restores its content transparently, which means you don't have to call any save or load methods:
 
 - **Automatic state save:** The states of the selected  `ScriptableObjects` are automatically serialized and stored through the selected persistence mechanism. Happens when `OnDestroy()` is triggered on the container.
 - **Automating state restore:** The state is automatically restored when the persistent container is instantiated. Happens when `Awake()` is triggered on the container.
