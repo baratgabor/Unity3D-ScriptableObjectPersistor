@@ -15,7 +15,7 @@ This container persists and restores its content transparently, which means you 
 
 (But optionally you can disable this automatic save and restore, and call the publicly exposed simple `SaveData()` and `LoadData()` methods on the `PersistentContainer` instance.)
 
-The *persistence mechanism* mentioned above is essentially a `ScriptableObject`-based plug-and-play component you can drag into the appropriate slot on the `PersistentContainer`. This component determines how and where the state of your `ScriptableObjects` will be saved.
+The *persistence mechanism* mentioned above is essentially a `ScriptableObject`-based pluggable component you can drag into the appropriate slot on the `PersistentContainer`. This component determines how and where the state of your `ScriptableObjects` will be saved.
 
 ## Interface
 
